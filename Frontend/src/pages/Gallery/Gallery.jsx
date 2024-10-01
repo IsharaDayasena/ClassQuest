@@ -16,16 +16,16 @@ const Gallery = () => {
         </div>
         <div className=" gap-4 grid grid-cols-2 items-start">
           <div >
-            <img src={img2} alt="" className=" m:h-[175px]" />
+            <img src={img2} alt="" className=" m:h-[350px] rounded-sm" />
           </div>
           <div>
-            <img src={img3} alt="" className=" m:h-[175px]" />
+            <img src={img3} alt="" className=" m:h-[350px] rounded-sm" />
           </div>
           <div>
-            <img src={img4} alt="" className=" m:h-[175px]" />
+            <img src={img4} alt="" className=" m:h-[350px] rounded-sm" />
           </div>
           <div>
-            <img src={img5} alt="" className=" m:h-[175px]" />
+            <img src={img5} alt="" className=" m:h-[350px] rounded-sm" />
           </div>
         </div>
       </div>

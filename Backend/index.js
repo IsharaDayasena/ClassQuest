@@ -51,7 +51,7 @@ async function run() {
 
     //create a database and collections
     const database = client.db("Class");
-    const userCollection = database.collection("users");
+    const userCollection = database.collection("Users");
     const classesCollection = database.collection("classes");
     const cartCollection = database.collection("cart");
     const paymentCollection = database.collection("payments");
@@ -83,7 +83,7 @@ async function run() {
                 }
             }
     
-    
+     
             app.post('/new-user', async (req, res) => {
                 const newUser = req.body;
     
@@ -95,7 +95,7 @@ async function run() {
                 const token = jwt.sign(user, process.env.ACCESS_SECRET, { expiresIn: '24h' })
                 res.send({ token })
             })
-    
+     
     
             // GET ALL USERS
             app.get('/users', async (req, res) => {
@@ -158,8 +158,8 @@ async function run() {
       res.send(result);
     });
     app.get("/classes", async (req, res) => {
-      const query = { status: "approved" };
-      const result = await classesCollection.find().toArray();
+      //const query = { status: "approved" };
+      const result = await classesCollection.find({}).toArray();
       res.send(result);
     });
     app.get("/classes/:email",verifyJWT,verifyInstructor, async (req, res) => {
@@ -191,20 +191,20 @@ async function run() {
         filter,
         updateDoc,
         options
-      );
-      res.send(result);
+      );  
+      res.send(result); 
     });
 
     app.get("/approved_classes", async (req, res) => {
       const query = { status: "approved" };
       const result = await classesCollection.find(query).toArray();
-      res.send(result);
+      res.send(result); 
     });
 
     //get single class details
     app.get("/class/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
+      const query = { _id: new ObjectId(id) }; 
       const result = await classesCollection.findOne(query);
       res.send(result);
     });
@@ -361,10 +361,15 @@ async function run() {
             },
             {
                 $lookup: {
-                    from: "users",
+                    from: "Users",
                     localField: "_id",
                     foreignField: "email",
                     as: "instructor"
+                }
+            },
+            {
+                $match:{
+                    "instructor.role": "instructor",
                 }
             },
             {
@@ -419,7 +424,7 @@ async function run() {
         res.send(result);
     })
 
-
+ 
 
 
     app.get('/enrolled-classes/:email', verifyJWT, async (req, res) => {
@@ -428,7 +433,7 @@ async function run() {
         const pipeline = [
             {
                 $match: query
-            },
+            }, 
             {
                 $lookup: {
                     from: "classes",
